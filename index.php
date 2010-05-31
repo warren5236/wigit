@@ -7,6 +7,8 @@
 	 */
 
 	require_once('classTextile.php');
+	require_once('Parseable.php');
+	require_once('classDatabaseTable.php');
 
 	// --------------------------------------------------------------------------
 	// Configuration
@@ -141,6 +143,7 @@
 		$matches = array();
 		$page = "";
 		$type = "";
+		$class = "";
 		
 		// remove the directory
 		$resource = '/' . str_replace($BASE_URL,'',$resource);
@@ -158,6 +161,7 @@
 		if ($type == "") {
 			$type = "view";
 		}
+		
 		return array("page" => $page, "type" => $type);
 	}
 
@@ -170,7 +174,7 @@
 		global $SCRIPT_URL;
 
 		// FIXME: Do not apply this in <pre> and <notextile> blocks.
-
+		
 		// Linkify
 		$text = preg_replace('@([^:])(https?://([-\w\.]+)+(:\d+)?(/([%-\w/_\.]*(\?\S+)?)?)?)@', '$1<a href="$2">$2</a>', $text);
 
@@ -178,6 +182,26 @@
 		$text = preg_replace('@\[([A-Z]\w+)\]@', '<a href="' . $SCRIPT_URL . '/$1">$1</a>', $text);
 		$text = preg_replace('@\[([A-Z]\w+)\|([\w\s]+)\]@', '<a href="' . $SCRIPT_URL . '/$1">$2</a>', $text);
 
+		//echo $text;
+		
+		// check to see if we have a class
+		if(preg_match('/^class([A-Z][a-zA-Z]+)/',$text, $arrMatches)){
+			// get the class name
+			$strClass = 'class' . $arrMatches[1];
+			
+			// create the clas
+			$objClass = new $strClass();
+			
+			// attempt to parse the text
+			if($objClass->Parse($text)){
+				// we were able to parse the text so return this as html
+				return $objClass->ToHTML();
+			} else {
+				// we ran into an error while parsing the data
+				$text = 'Error parsing text as class ' . $strClass . ': ' . $objClass->GetErrors() . $text;
+			}
+		}
+		
 		// Textilify
 		$textile = new Textile();
 		return $textile->TextileThis($text);
