@@ -46,7 +46,7 @@ abstract class Parseable{
 					// check
 					$intCount = count($this->_arrData[$i-1]);
 					if($intCount != $intExpectedColumns){
-						$this->AddError('Found wrong number of columns on line ' . $i . ' found ' . $intCount . ' but expected' . $intExpectedColumns);
+						$this->AddError('Found wrong number of columns on line ' . $i . ' found ' . $intCount . ' but expected ' . $intExpectedColumns . '.');
 						return false;
 					}
 				}

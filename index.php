@@ -195,10 +195,10 @@
 			// attempt to parse the text
 			if($objClass->Parse($text)){
 				// we were able to parse the text so return this as html
-				return $objClass->ToHTML();
+				$text = $objClass->ToHTML();
 			} else {
 				// we ran into an error while parsing the data
-				$text = 'Error parsing text as class ' . $strClass . ': ' . $objClass->GetErrors() . $text;
+				$text = 'Error parsing text as class ' . $strClass . ': ' . $objClass->GetErrors() . PHP_EOL . $text;
 			}
 		}
 		
