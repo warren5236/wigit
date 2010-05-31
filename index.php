@@ -141,11 +141,15 @@
 		$matches = array();
 		$page = "";
 		$type = "";
-		if (ereg("/(.*)/(.*)", $resource, $matches)) {
+		
+		// remove the directory
+		$resource = '/' . str_replace($BASE_URL,'',$resource);
+		
+		if (ereg("^/(.*)/(.*)", $resource, $matches)) {
 			$page = sanitizeName($matches[1]);
 			$type = $matches[2];
 		}
-		else if (ereg("/(.*)", $resource, $matches)) {
+		else if (ereg("^/(.*)", $resource, $matches)) {
 			$page = sanitizeName($matches[1]);
 		}
 		if ($page == "") {
