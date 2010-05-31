@@ -85,13 +85,8 @@ acronym, abbr {
 	font-family: monospace;
 }
 
-#content table {
-	border-collapse: collapse;
-}
 
-#content td {
-	border: thin dashed gray;
-}
+
 
 
 #footer {
@@ -139,4 +134,17 @@ acronym, abbr {
 
 #history td.page {
 	text-align: center;
+}
+
+.classDatabaseTable{
+	border:outset;
+	border-width:1px;
+	border-color:#AAAAAA;
+	
+}
+
+.classDatabaseTable th, td {
+	border:inset;
+	border-width:1px;
+	border-color:#AAAAAA;
 }
