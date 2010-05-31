@@ -8,7 +8,7 @@
 
 	require_once('classTextile.php');
 	require_once('Parseable.php');
-	require_once('classDatabaseTable.php');
+	require_once('classDatabase.php');
 
 	// --------------------------------------------------------------------------
 	// Configuration
@@ -175,15 +175,6 @@
 
 		// FIXME: Do not apply this in <pre> and <notextile> blocks.
 		
-		// Linkify
-		$text = preg_replace('@([^:])(https?://([-\w\.]+)+(:\d+)?(/([%-\w/_\.]*(\?\S+)?)?)?)@', '$1<a href="$2">$2</a>', $text);
-
-		// WikiLinkify
-		$text = preg_replace('@\[([A-Z]\w+)\]@', '<a href="' . $SCRIPT_URL . '/$1">$1</a>', $text);
-		$text = preg_replace('@\[([A-Z]\w+)\|([\w\s]+)\]@', '<a href="' . $SCRIPT_URL . '/$1">$2</a>', $text);
-
-		//echo $text;
-		
 		// check to see if we have a class
 		if(preg_match('/^class([A-Z][a-zA-Z]+)/',$text, $arrMatches)){
 			// get the class name
@@ -201,6 +192,17 @@
 				$text = 'Error parsing text as class ' . $strClass . ': ' . $objClass->GetErrors() . PHP_EOL . $text;
 			}
 		}
+		
+		// Linkify
+		$text = preg_replace('@([^:])(https?://([-\w\.]+)+(:\d+)?(/([%-\w/_\.]*(\?\S+)?)?)?)@', '$1<a href="$2">$2</a>', $text);
+
+		// WikiLinkify
+		$text = preg_replace('@\[([A-Z]\w+)\]@', '<a href="' . $SCRIPT_URL . '/$1">$1</a>', $text);
+		$text = preg_replace('@\[([A-Z]\w+)\|([\w\s]+)\]@', '<a href="' . $SCRIPT_URL . '/$1">$2</a>', $text);
+
+		//echo $text;
+		
+		
 		
 		// Textilify
 		$textile = new Textile();
