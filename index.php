@@ -134,7 +134,7 @@
 	}
 
 	function sanitizeName($name) {
-		return ereg_replace("[^A-Za-z0-9]", "_", $name);
+		return preg_replace("/[^A-Za-z0-9]/", "_", $name);
 	}
 
 	function parseResource($resource) {
@@ -148,11 +148,11 @@
 		// remove the directory
 		$resource = '/' . str_replace($BASE_URL,'',$resource);
 		
-		if (ereg("^/(.*)/(.*)", $resource, $matches)) {
+		if (preg_match("/^\/(.*)\/(.*)/", $resource, $matches)) {
 			$page = sanitizeName($matches[1]);
 			$type = $matches[2];
 		}
-		else if (ereg("^/(.*)", $resource, $matches)) {
+		else if (preg_match("/^\/(.*)/", $resource, $matches)) {
 			$page = sanitizeName($matches[1]);
 		}
 		if ($page == "") {
@@ -378,7 +378,7 @@
 			include(getThemeDir() . "/history.php");
 		}
 		// Specific version
-		else if (eregi("[0-9A-F]{20,20}", $wikiSubPage)) {
+		else if (preg_match("/[0-9A-Fa-f]{20,20}/", $wikiSubPage)) {
 			$output = array();
 			if (!git("cat-file -p " . $wikiSubPage . ":$wikiPage", $output)) {
 				return;
