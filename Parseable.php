@@ -17,6 +17,10 @@ abstract class Parseable{
 	
 	abstract public function ToHTML();
 	
+	public function extraAction(){
+		
+	}
+	
 	protected function ParseAsTable($strText, $intExpectedColumns = -1){
 		// blank out the array
 		$this->_arrData = array();

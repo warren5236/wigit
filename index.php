@@ -171,7 +171,7 @@
 	// --------------------------------------------------------------------------
 
 	function wikify($text) {
-		global $SCRIPT_URL;
+		global $SCRIPT_URL, $objClass;
 
 		// FIXME: Do not apply this in <pre> and <notextile> blocks.
 		
@@ -359,6 +359,13 @@
 
 			// Put in template
 			$wikiContent = wikify($data);
+			
+			// check to see if there is an extra action
+			if(isset($_POST['extraAction']) and $objClass != null){
+				$objClass->extraAction();
+				$wikiContent = wikify($data);
+			}
+			
 			include(getThemeDir() . "/view.php");
 		}
 		// Editing
